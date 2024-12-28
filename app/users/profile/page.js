@@ -66,6 +66,10 @@ export default function ProfilePage() {
                         <button style={styles.button}>Add Details</button>
                     </>
                 )}
+                {/* Button to navigate to Dashboard */}
+                <a href="/dashboard" style={styles.dashboardButton}>
+                    Go to Dashboard
+                </a>
             </div>
         </>
     );
@@ -103,6 +107,17 @@ const styles = {
     },
     buttonHover: {
         background: "#2575fc", // Slightly darker blue on hover
+    },
+    dashboardButton: {
+        background: "#007bff", // Dashboard button color
+        color: "#fff",
+        border: "none",
+        padding: "10px 20px",
+        borderRadius: "5px",
+        fontSize: "16px",
+        cursor: "pointer",
+        marginTop: "20px",
+        transition: "background 0.3s",
     },
 };
 

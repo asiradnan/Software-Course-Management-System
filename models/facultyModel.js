@@ -45,6 +45,6 @@ const facultySchema =  new mongoose.Schema({
     
 });
 
-const Faculty = User.discriminator("Faculty", facultySchema);
+const Faculty  = mongoose.models.Faculty || User.discriminator("Faculty", facultySchema);
 
 export default Faculty;
