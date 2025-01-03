@@ -67,9 +67,9 @@ function FacultyDashboard() {
                 icon="➕"
             />
             <DashboardCard 
-                title="Course Management" 
-                description="Add and manage course materials"
-                href="/courses"
+                title="Resource Management" 
+                description="View and manage course materials"
+                href="/resources"
                 icon="📝"
             />
             <DashboardCard 
@@ -122,9 +122,9 @@ function StudentDashboard({ user }) {
                 icon="➕"
             />
             <DashboardCard 
-                title="Course Management" 
-                description="Add and manage course materials"
-                href="/courses"
+                title="Resource Management" 
+                description="View and manage course materials"
+                href="/resources"
                 icon="📝"
             />
             <DashboardCard 
