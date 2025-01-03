@@ -42,8 +42,9 @@ export async function POST(request) {
                 success: false
             }, { status: 400 });
         }
-
-        // Prepare token data
+        // if (!user.verified) {
+        //     return NextResponse.json({message:"Please verify your email first"},{status:400})
+        // }
         const tokenData = {
             id: user._id,
             role: user.role

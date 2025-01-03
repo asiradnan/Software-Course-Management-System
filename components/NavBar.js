@@ -60,7 +60,7 @@ export default function NavBar() {
         try {
             await axios.get("/api/users/logout");
             setUser(null);
-            router.push("/users/login");
+            router.push("/login");
         } catch (error) {
             console.error("Logout error:", error);
             alert("Logout failed. Please try again.");
@@ -140,7 +140,7 @@ export default function NavBar() {
                                 Log In
                             </Link>
                             <Link
-                                href="/users/signup"
+                                href="/signup"
                                 className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300 transition duration-300"
                             >
                                 Sign Up
