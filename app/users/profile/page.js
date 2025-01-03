@@ -1,114 +1,123 @@
+
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import NavBar from "@/components/NavBar";
 import axios from "axios";
 
 export default function ProfilePage() {
-    const router = useRouter();
-    const [user, setUser] = useState({
-        name: "Nafiz",  //Default values
-        id: "22101045",
-        university_email: "nafiz@g.bracu.ac.bd",
-    });
+    const [user, setUser ] = useState(null);
+    const [facultyInfo, setFacultyInfo] = useState(null);
+    
 
-    // Fetching the user data from the API when the component mounts
     useEffect(() => {
-        const fetchUserData = async () => {
+        const checkUserRole = async () => {
+
+            
             try {
-                // Make the GET request to the profile API
-                const response = await axios.get("/api/users/login/profiles"); // Replace with dynamic user id or email
-                setUser(response.data.user);  // Set the user profile data
+                
+                const response = await axios.get("/api/users/userinfo");
+                const data = response.data;
+                console.log(data);
+                if (data.logged_in) {
+                    setUser (data.user);
+                    // If the user is a faculty, fetch additional faculty-specific info
+                    if (data.user.role === "faculty") {
+                        const facultyResponse = await axios.get("/api/users/facultyinfo");
+                        setFacultyInfo(facultyResponse.data.faculty);
+                    }
+                } else {
+                    router.push("/users/login"); // Redirect if not logged in
+                }
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.log(error);
+                router.push("/users/login"); // Redirect on error
             }
         };
 
-        fetchUserData();
-    }, []);
-
-    const handleChangeEmail = () => {
-        alert("Change Email clicked!");
-        //In_progress...
-
-    };
-
-    const handleChangePassword = () => {
-        alert("Change Password clicked!");
-        //In_progress...
-    };
-
-    const handleUpdateProfile = () => {
-        alert("Update Profile clicked!");
-        //In_progress...
-    };
+        checkUserRole();
+    }, );
 
     return (
-        <div style={styles.container}>
-            <div style={styles.profileCard}>
-                <h2 style={styles.heading}>Profile</h2>
-                <div style={styles.info}>
-                    <p><strong>Name:</strong> {user.name}</p>
-                    <p><strong>ID:</strong> {user.id}</p>
-                    <p><strong>Email:</strong> {user.university_email}</p>
-                </div>
-                <div style={styles.buttonContainer}>
-                    <button style={styles.button} onClick={handleChangeEmail}>
-                        Change Email
-                    </button>
-                    <button style={styles.button} onClick={handleChangePassword}>
-                        Change Password
-                    </button>
-                    <button style={styles.button} onClick={handleUpdateProfile}>
-                        Update Profile
-                    </button>
-                </div>
+        <>
+            <NavBar />
+            <div style={styles.container}>
+                <h1 style={styles.heading}>Welcome {user?.role}</h1>
+                {user?.role === "student" ? (
+                    <h1 style={styles.heading}>Student Profile</h1>
+                ) : (
+                    <h1 style={styles.heading}>Faculty Profile</h1>
+                )}
+                
+                <p style={styles.input}>Name: {user?.name}</p>
+                <p style={styles.input}>Email: {user?.university_email}</p>
+                <p style={styles.input}>ID: {user?.id}</p>
+
+                {user?.role === "faculty" && facultyInfo && (
+                    <>
+                        <p style={styles.input}>Department: {facultyInfo.department}</p>
+                        {/* <p>Research Interests: {facultyInfo.research_interests}</p> */}
+                        {/* <p>Phone Number: {facultyInfo.phone_number}</p> */}
+                        {/* <p>Office Location: {facultyInfo.office_location}</p> */}
+                        {/* <p>Date of Joining: {new Date(facultyInfo.date_of_joining).toLocaleDateString()}</p>
+                        <p>Publications: {facultyInfo.publications}</p>
+                        <p>Educations: {facultyInfo.education}</p>
+                        <p>LinkedIn Profile: <a href={facultyInfo.linkedin_profile} target="_blank" rel="noopener noreferrer">{facultyInfo.linkedin_profile}</a></p> */}
+                        <button style={styles.button}>Add Details</button>
+                    </>
+                )}
+                {/* Button to navigate to Dashboard */}
+                <a href="/dashboard" style={styles.dashboardButton}>
+                    Go to Dashboard
+                </a>
             </div>
-        </div>
+        </>
     );
 }
+
 const styles = {
     container: {
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
+        justifyContent : "center",
         alignItems: "center",
-        height: "100vh",
-        backgroundColor: "#f4f4f4",
         padding: "20px",
-    },
-    profileCard: {
-        width: "400px",
-        padding: "20px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        backgroundColor: "#ffffff",
+        background:'white',
     },
     heading: {
         fontSize: "24px",
         marginBottom: "20px",
-        textAlign: "center",
-        color: "#333",
+        color:'black',
     },
-    info: {
-        marginBottom: "20px",
-        lineHeight: "1.5",
-        color: "#555",
-    },
-    buttonContainer: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
+    input:{
+        fontSize: "19px",
+        marginBottom:"5px",
+        color:'black',
     },
     button: {
-        padding: "10px",
-        border: "none",
-        borderRadius: "5px",
-        backgroundColor: "#007bff",
-        color: "#ffffff",
-        fontSize: "16px",
-        cursor: "pointer",
-        transition: "background-color 0.3s",
+        background: "#6a11cb", // Blue background
+        color: "#fff", // White text
+        border: "none", // Remove default border
+        padding: "12px 20px", // Padding for better button size
+        borderRadius: "5px", // Rounded corners
+        fontSize: "16px", // Slightly larger font
+        cursor: "pointer", // Indicate clickable
+        marginTop: "10px",
+        transition: "background 0.3s", // Smooth transition
     },
     buttonHover: {
-        backgroundColor: "#0056b3",
+        background: "#2575fc", // Slightly darker blue on hover
+    },
+    dashboardButton: {
+        background: "#007bff", // Dashboard button color
+        color: "#fff",
+        border: "none",
+        padding: "10px 20px",
+        borderRadius: "5px",
+        fontSize: "16px",
+        cursor: "pointer",
+        marginTop: "20px",
+        transition: "background 0.3s",
     },
 };
+

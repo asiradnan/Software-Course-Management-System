@@ -67,9 +67,9 @@ function FacultyDashboard() {
                 icon="➕"
             />
             <DashboardCard 
-                title="Course Management" 
-                description="Add and manage course materials"
-                href="/courses"
+                title="Resource Management" 
+                description="View and manage course materials"
+                href="/resources"
                 icon="📝"
             />
             <DashboardCard 
@@ -95,6 +95,12 @@ function FacultyDashboard() {
                 description="Manage your profile settings"
                 href="/profile"
                 icon="👤"
+            />
+            <DashboardCard 
+                title="Manage Groups" 
+                description="Create and manage student groups"
+                href="/groups" // Link to the Manage Groups component
+                icon="🗂️"
             />
         </div>
     );
@@ -116,9 +122,9 @@ function StudentDashboard({ user }) {
                 icon="➕"
             />
             <DashboardCard 
-                title="Course Management" 
-                description="Add and manage course materials"
-                href="/courses"
+                title="Resource Management" 
+                description="View and manage course materials"
+                href="/resources"
                 icon="📝"
             />
             <DashboardCard 
@@ -144,6 +150,12 @@ function StudentDashboard({ user }) {
                 description="Manage your profile settings"
                 href="/profile"
                 icon="👤"
+            />
+            <DashboardCard 
+                title="Group Details" 
+                description="View and manage your groups"
+                href="/groups" // Link to the Group Details component
+                icon="📋🔍"
             />
         </div>    );
 }
