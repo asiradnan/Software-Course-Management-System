@@ -5,7 +5,7 @@ import NavBar from "@/components/NavBar"; // Ensure this path is correct
 import Link from "next/link";
 
 export default function Dashboard() {
-    const [user, setUser ] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -14,7 +14,7 @@ export default function Dashboard() {
             try {
                 const response = await axios.get("/api/users/userinfo");
                 if (response.data.user) {
-                    setUser (response.data.user);
+                    setUser(response.data.user);
                 } else {
                     setError("User  information not found");
                 }
@@ -54,44 +54,51 @@ export default function Dashboard() {
 function FacultyDashboard() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DashboardCard 
-                title="Manage Sections" 
+            <DashboardCard
+                title="Manage Sections"
                 description="Create and manage course sections"
                 href="/sections"
                 icon="📚"
             />
-            <DashboardCard 
-                title="Create New Section" 
+            <DashboardCard
+                title="Create New Section"
                 description="Add a new section for courses"
                 href="/sections"// Link to the CreateSection component
                 icon="➕"
             />
-            <DashboardCard 
-                title="Course Management" 
+            <DashboardCard
+                title="Announcements"
+                description="Create and view course announcements"
+                href="/announcement"
+                icon="📢"
+            />
+
+            <DashboardCard
+                title="Course Management"
                 description="Add and manage course materials"
                 href="/courses"
                 icon="📝"
             />
-            <DashboardCard 
-                title="Student Enrollment" 
+            <DashboardCard
+                title="Student Enrollment"
                 description="View and manage student enrollments"
                 href="/enrollments"
                 icon="👥"
             />
-            <DashboardCard 
-                title="Assignments" 
+            <DashboardCard
+                title="Assignments"
                 description="Create and manage assignments"
                 href="/assignments"
                 icon="📋"
             />
-            <DashboardCard 
-                title="Grading" 
+            <DashboardCard
+                title="Grading"
                 description="Grade student submissions"
                 href="/grading"
                 icon="📊"
             />
-            <DashboardCard 
-                title="Profile" 
+            <DashboardCard
+                title="Profile"
                 description="Manage your profile settings"
                 href="/profile"
                 icon="👤"
@@ -103,49 +110,49 @@ function FacultyDashboard() {
 function StudentDashboard({ user }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DashboardCard 
-                title="Manage Sections" 
+            <DashboardCard
+                title="Manage Sections"
                 description="Create and manage course sections"
                 href="/sections"
                 icon="📚"
             />
-            <DashboardCard 
-                title="Create New Section" 
+            <DashboardCard
+                title="Create New Section"
                 description="Add a new section for courses"
                 href="/sections" // Link to the CreateSection component
                 icon="➕"
             />
-            <DashboardCard 
-                title="Course Management" 
+            <DashboardCard
+                title="Course Management"
                 description="Add and manage course materials"
                 href="/courses"
                 icon="📝"
             />
-            <DashboardCard 
-                title="Student Enrollment" 
+            <DashboardCard
+                title="Student Enrollment"
                 description="View and manage student enrollments"
                 href="/enrollments"
                 icon="👥"
             />
-            <DashboardCard 
-                title="Assignments" 
+            <DashboardCard
+                title="Assignments"
                 description="Create and manage assignments"
                 href="/assignments"
                 icon="📋"
             />
-            <DashboardCard 
-                title="Grading" 
+            <DashboardCard
+                title="Grading"
                 description="Grade student submissions"
                 href="/grading"
                 icon="📊"
             />
-            <DashboardCard 
-                title="Profile" 
+            <DashboardCard
+                title="Profile"
                 description="Manage your profile settings"
                 href="/profile"
                 icon="👤"
             />
-        </div>    );
+        </div>);
 }
 
 function DashboardCard({ title, description, href, icon }) {

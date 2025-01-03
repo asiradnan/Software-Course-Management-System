@@ -15,6 +15,7 @@ export default function NavBar() {
                 const response = await axios.get("/api/users/userinfo");
                 if (response.data.logged_in) {
                     setUser(response.data.user);
+                    console.log(response.data.user);
                 }
             } catch (error) {
                 console.error("Error fetching user info:", error);
@@ -40,9 +41,18 @@ export default function NavBar() {
                     Software Course Management System
                 </Link>
                 <div className="flex items-center space-x-4">
-                    {/* Announcements dropdown menu */}
+                    {user && user.role === "faculty" && (
+                        <Link href="/dashboard" className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300 transition duration-300">
+                            Faculty Dashboard
+                        </Link>
+                    )}
+                    {user && user.role === "student" && (
+                        <Link href="/dashboard" className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300 transition duration-300">
+                            Student Dashboard
+                        </Link>
+                    )}
                     <AnnouncementsDropdown />
-                    {user ? (
+                    {user && (
                         <div className="flex items-center space-x-4">
                             <span className="text-white">{user.name}</span>
                             <button
@@ -52,7 +62,9 @@ export default function NavBar() {
                                 Log Out
                             </button>
                         </div>
-                    ) : (
+                    )}
+
+                    {!user && (
                         <div className="flex space-x-4">
                             <Link
                                 href="/login"

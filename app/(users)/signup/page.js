@@ -23,17 +23,16 @@ export default function SignupPage() {
             setError("All fields are required")
             return
         }
-
-        if (user.university_email.includes("@g.bracu.ac.bd")) {
+        if (user.university_email.split("@")[1] === "g.bracu.ac.bd") {
             setUser({...user, role: "student"})
-        } else if (user.university_email.includes("@bracu.ac.bd")) {
+        } else if (user.university_email.split("@")[1] === "bracu.ac.bd") {
             setUser({...user, role: "faculty"})
         } else {
             setError("Please use a valid university email address")
             return
         }
-
         try {
+            console.log(user)
             const response = await axios.post("/api/users/signup", user)
             router.push("/login")
         } catch (error) {

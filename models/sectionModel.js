@@ -22,7 +22,6 @@ const sectionSchema = mongoose.Schema({
     }],
     section_number: {
         type: Number,
-        unique: true, // Ensure this is unique if required
         required: true // Make sure to set this when creating a section
     }
 }, { timestamps: true });

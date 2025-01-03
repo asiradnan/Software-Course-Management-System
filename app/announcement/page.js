@@ -4,6 +4,8 @@ import axios from "axios";
 import NavBar from "@/components/NavBar";
 
 export default function Announcement() {
+    const [sendEmail, setSendEmail] = useState(false);
+
     const [sections, setSections] = useState([]);
     const [selectedSections, setSelectedSections] = useState([]);
     const [content, setContent] = useState("");
@@ -40,22 +42,34 @@ export default function Announcement() {
         }
 
         try {
-            const response = await axios.post("/api/announcements", {
-                content,
-                sections: selectedSections,
-            });
+            // Create announcement
+            
+            // If email option is selected, send email notification
+            if (sendEmail) {
+                await axios.post("/api/announcements/notify", {
+                    content,
+                    sections: selectedSections,
+                });
+            }
+            else {
+                const response = await axios.post("/api/announcements", {
+                    content,
+                    sections: selectedSections,
+                });
+    
+            }
 
             if (response.status === 200) {
                 setSuccess("Announcement created successfully!");
                 setContent("");
                 setSelectedSections([]);
+                setSendEmail(false);
             }
         } catch (error) {
             console.error("Error creating announcement:", error);
             setError("An error occurred while creating the announcement.");
         }
     };
-
     const handleSectionChange = (sectionId) => {
         setSelectedSections((prev) =>
             prev.includes(sectionId)
@@ -130,6 +144,18 @@ export default function Announcement() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mb-4">
+                        <input
+                            type="checkbox"
+                            id="sendEmail"
+                            checked={sendEmail}
+                            onChange={(e) => setSendEmail(e.target.checked)}
+                            className="form-checkbox h-5 w-5 text-blue-600"
+                        />
+                        <label htmlFor="sendEmail" className="text-gray-700">
+                            Send announcement via email to all students in selected sections
+                        </label>
                     </div>
 
                     <div className="flex justify-center">
