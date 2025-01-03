@@ -46,25 +46,32 @@ export default function Announcement() {
             
             // If email option is selected, send email notification
             if (sendEmail) {
-                await axios.post("/api/announcements/notify", {
+                const response = await axios.post("/api/announcements/notify", {
                     content,
                     sections: selectedSections,
                 });
+                if (response.status === 200) {
+                    setSuccess("Announcement created successfully!");
+                    setContent("");
+                    setSelectedSections([]);
+                    setSendEmail(false);
+                }
             }
             else {
                 const response = await axios.post("/api/announcements", {
                     content,
                     sections: selectedSections,
                 });
+                if (response.status === 200) {
+                    setSuccess("Announcement created successfully!");
+                    setContent("");
+                    setSelectedSections([]);
+                    setSendEmail(false);
+                }
     
             }
 
-            if (response.status === 200) {
-                setSuccess("Announcement created successfully!");
-                setContent("");
-                setSelectedSections([]);
-                setSendEmail(false);
-            }
+            
         } catch (error) {
             console.error("Error creating announcement:", error);
             setError("An error occurred while creating the announcement.");
